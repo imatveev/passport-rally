@@ -26,7 +26,7 @@ module.exports = (grunt) ->
             'coffee-script/register'
             'spec/spec-global.coffee'
           ]
-        src: ['src/**/*.coffee']
+        src: ['spec/**/*.coffee']
 
   grunt.registerTask 'test', ['mochaTest']
   grunt.registerTask 'default', ['clean', 'coffee']

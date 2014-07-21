@@ -1,6 +1,6 @@
 util = require 'util'
-OAuth2Strategy = require 'passport-oauth2'
 Profile = require './profile'
+OAuth2Strategy = require 'passport-oauth2'
 InternalOAuthError = OAuth2Strategy.InternalOAuthError
 
 ###
@@ -15,7 +15,7 @@ InternalOAuthError = OAuth2Strategy.InternalOAuthError
  * credentials are not valid.  If an exception occured, `err` should be set.
  *
  * Options:
- *   - `baseUrl`       base url for Rally. defaults to 'https://rally1.rallydev.com'
+ *   - `baseURL`       base url for Rally. defaults to 'https://rally1.rallydev.com'
  *   - `clientID`      your Rally application's Client ID
  *   - `clientSecret`  your Rally application's Client Secret
  *   - `callbackURL`   URL to which Rally will redirect the user after granting authorization
@@ -45,9 +45,10 @@ InternalOAuthError = OAuth2Strategy.InternalOAuthError
  * @api public
 ###
 Strategy = (options={}, verify) ->
-  options.baseUrl ?= 'https://rally1.rallydev.com'
-  options.authorizationURL ?= "#{options.baseUrl}/login/oauth2/auth"
-  options.tokenURL ?= "#{options.baseUrl}/login/oauth2/token"
+  options.baseURL ?= 'https://rally1.rallydev.com'
+  options.authorizationURL ?= "#{options.baseURL}/login/oauth2/auth"
+  options.tokenURL ?= "#{options.baseURL}/login/oauth2/token"
+  options.userProfileURL ?= "#{options.baseURL}/slm/webservice/v2.0/user"
   options.customHeaders ?= {}
 
   unless options.customHeaders['User-Agent']
@@ -55,7 +56,7 @@ Strategy = (options={}, verify) ->
 
   OAuth2Strategy.call this, options, verify
   @name = 'rally'
-  @_userProfileURL = options.userProfileURL ? "#{options.baseUrl}/slm/webservice/v2.0/user"
+  @_userProfileURL = options.userProfileURL
   @_oauth2.useAuthorizationHeaderforGET true
 
   # ALM does not support the standard ways of passing OAuth tokens yet.
